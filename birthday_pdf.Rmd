@@ -1,0 +1,74 @@
+---
+#title: paste("Happy Birthday ",name)
+#author: "Pamela Clevenger"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+classoption: landscape
+header-includes:
+  - \usepackage{fontspec} # https://mirror.hmc.edu/ctan/macros/xetex/latex/fontspec/fontspec.pdf
+  - \setmainfont{Comic Sans MS}
+  - \usepackage[fontsize=20pt]{scrextend}
+  - \usepackage{sectsty} \allsectionsfont{\centering }
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Load Lubridate
+library(lubridate)
+
+# Define some variables
+# today's date for calucations
+today <- today()
+# today <- as.POSIXct("2018-01-21 1:00:00", tz = "UTC", format = '%Y-%m-%d %H:%M') # for debugging
+# today <- as.POSIXct("2018-09-06", tz = "UTC", format = '%Y-%m-%d') # for debugging
+# today <- as.POSIXct("2018-05-27", tz = "UTC", format = '%Y-%m-%d') # for debugging
+
+# Today's written out date
+m <- months(today)
+d <- day(today)
+y <- year(today)
+written_date <- toupper(paste0(m,' ',d,', ',y))
+
+
+# Who's birthday is it
+if (month(today) == 1 && day(today) == 21) {
+  name = 'KATIE'
+  birthday = as.POSIXct("1990-01-21 2:00:00", tz = "UTC", format = '%Y-%m-%d %H:%M')
+} else if (month(today) == 9 && day(today) == 6) {
+  name = 'MARY'
+  birthday = as.POSIXct("1960-09-06 1:00:00", tz = "UTC", format = '%Y-%m-%d %H:%M')
+} else if (month(today) == 5 && day(today) == 27) {
+  name = 'JOHN'
+  birthday = as.POSIXct("1980-05-27 1:00:00", tz = "UTC", format = '%Y-%m-%d %H:%M')
+} else {
+  name = 'TEST'
+  birthday = as.POSIXct("2014-02-03 1:00:00", tz = "UTC", format = '%Y-%m-%d %H:%M')
+}
+```
+
+## HAPPY BIRTHDAY, `r name`!
+## `r written_date`
+##
+
+```{r , echo = FALSE}
+
+# CALCULATE
+years <-  prettyNum(round(as.numeric(difftime(today, 
+                                            birthday, units="days"))/365.25, 0), big.mark = ',', scientific = FALSE)
+months<-  prettyNum(round(as.numeric(difftime(today, 
+                                             birthday, units="days"))/365.25 * 12), big.mark = ',', scientific = FALSE)
+weeks<-   prettyNum(round(difftime(today,birthday,units="weeks"),0), big.mark = ',', scientific = FALSE)
+days<-    prettyNum(round(difftime(today,birthday,units="days"),0), big.mark = ',', scientific = FALSE)
+hours<-   prettyNum(round(difftime(today,birthday,units="hours"),0), big.mark = ',', scientific = FALSE)
+minutes<- prettyNum(round(difftime(today,birthday,units="mins"),0), big.mark = ',', scientific = FALSE)
+seconds<- prettyNum(round(difftime(today,birthday,units="secs"),0), big.mark = ',', scientific = FALSE)
+
+```
+## `r years` YEARS
+## `r months` MONTHS
+## `r weeks` WEEKS
+## `r days` DAYS
+## `r hours` HOURS
+## `r minutes` MINUTES
+## `r seconds` SECONDS
+
